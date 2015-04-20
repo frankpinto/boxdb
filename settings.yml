@@ -1,12 +1,12 @@
 ---
 default:
   ip: "192.168.10.10"
-  hostname: postgresql
+  hostname: boxdb
   memory: 1536
   cpus: 1
 
-  authorize: ~/.ssh/homestead.pub
+  authorize: ~/.ssh/boxdb.pub
 
   folders:
       - map: .
-        to: /home/vagrant/ayalo
+        to: /home/vagrant/boxdb
