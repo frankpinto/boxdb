@@ -1,0 +1,12 @@
+---
+default:
+  ip: "192.168.10.10"
+  hostname: postgresql
+  memory: 1536
+  cpus: 1
+
+  authorize: ~/.ssh/homestead.pub
+
+  folders:
+      - map: .
+        to: /home/vagrant/ayalo
