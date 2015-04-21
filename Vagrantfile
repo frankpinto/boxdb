@@ -12,7 +12,7 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "ubuntu/trusty32"
   config.vm.hostname = settings['hostname']
-  
+
   config.vm.box_check_update = true
 
   #config.vm.network "forwarded_port", guest: 5432, host: 54320 # postgres
@@ -42,12 +42,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
-  config.vm.provision "shell", inline: <<-SHELL
+  config.vm.provision "shell", privileged: false, inline: <<-SHELL
     # Make my life easier on the terminal
     cd
     echo "alias l='ls -liah'" > .bash_aliases
     echo "set -o vi" >> .bashrc
 
+    sudo su
     export DEBIAN_FRONTEND=noninteractive
 
     # Install generally useful tools
@@ -56,14 +57,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     apt-get install -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" -y vim git make sysstat htop
 
     # IMPORTANT: Set time
-    sudo ntpdate -s ntp.ubuntu.com pool.ntp.org time.nist.gov
-    sudo apt-get install -y ntp
-    sudo tee /etc/timezone <<< "America/Guatemala" > /dev/null
-    sudo dpkg-reconfigure --frontend noninteractive tzdata
+    ntpdate -s ntp.ubuntu.com pool.ntp.org time.nist.gov
+    apt-get install -y ntp
+    tee /etc/timezone <<< "America/Guatemala" > /dev/null
+    dpkg-reconfigure --frontend noninteractive tzdata
+    exit
 
     # Setup Vim
     mkdir -p .vim/bundle
-    git clone https://github.com/gmarik/Vundle.vim.git .vim/bundle/vundle
+    git clone https://github.com/gmarik/Vundle.vim.git
     wget -O .vimrc https://s3.amazonaws.com/ayalo.co/.vimrc
     # Have to run PluginInstall when you login
   SHELL
