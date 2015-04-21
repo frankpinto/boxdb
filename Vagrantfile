@@ -19,6 +19,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network "private_network", ip: settings['ip']
 
   # Re-map this folder to somewhere owned by 'vagrant', default /home/vagrant/boxdb
+  # Also map whatever folder user wants, only salt is included by default
   config.vm.synced_folder '.', '/vagrant', disabled: true
   settings["folders"].each do |folder|
     config.vm.synced_folder folder["map"], folder["to"], type: folder["type"] ||= nil
@@ -69,4 +70,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     wget -O .vimrc https://s3.amazonaws.com/ayalo.co/.vimrc
     # Have to run PluginInstall when you login
   SHELL
+
+  # Use all the defaults:
+  config.vm.provision :salt do |salt|
+
+    salt.minion_config = "salt/minion"
+    salt.run_highstate = true
+
+  end
 end

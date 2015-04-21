@@ -10,3 +10,5 @@ default:
   folders:
       - map: .
         to: /home/vagrant/boxdb
+      - map: salt/roots # For masterless, mount your salt file root
+        to: /srv/salt
