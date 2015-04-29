@@ -1,5 +1,14 @@
 base:
   '*':
-    - vim
+    - /home/vagrant/.bashrc:
+      - file.append:
+        - text:
+          - "alias l='ls -liah'"
+          - "set -o vi"
     - packages:
-      - pkg.uptodate: []
+      - pkg.installed:
+        - git
+        - make
+        - sysstat
+        - htop
+    - vim
