@@ -19,14 +19,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network "private_network", ip: settings['ip']
 
   # Re-map this folder to somewhere owned by 'vagrant', default /home/vagrant/boxdb
-  # Also map whatever folder user wants, only salt is included by default
+  # Also map whatever folder you want in settings.yml, only salt is included by default
   config.vm.synced_folder '.', '/vagrant', disabled: true
   settings["folders"].each do |folder|
     config.vm.synced_folder folder["map"], folder["to"], type: folder["type"] ||= nil
   end
 
-  # Provider-specific configuration so you can fine-tune various
-  # backing providers for Vagrant. These expose provider-specific options.
+  # Match this box to your hardware in settings.yml, default is 1 CPU / 1.5 GB RAM
   config.vm.provider "virtualbox" do |vb|
     vb.customize ["modifyvm", :id, "--memory", settings['memory']]
     vb.customize ["modifyvm", :id, "--cpus", settings['cpus']]
@@ -34,10 +33,18 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
   end
 
-  # Configure The Public Key For SSH Access
-  config.vm.provision "shell" do |s|
-    s.inline = "echo $1 | tee -a /home/vagrant/.ssh/authorized_keys"
-    s.args = [File.read(File.expand_path(settings["authorize"]))]
+  # Add additional SSH key specified in settings.yml to authorized_hosts in
+  # addition to the one Vagrant generates.
+  # If this funcionality is not wanted just remove authorize from settings.yml
+  if settings.has_key? 'authorize'
+    config.vm.provision "shell" do |s|
+      s.inline = "echo $1 | tee -a /home/vagrant/.ssh/authorized_keys"
+      pub_path = File.expand_path settings['authorize']
+      unless pub_path.include? '.pub'
+        pub_path += '.pub'
+      end
+      s.args = [File.read(pub_path)]
+    end
   end
 
   # Enable provisioning with a shell script. Additional provisioners such as
