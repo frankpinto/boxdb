@@ -78,10 +78,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #   # Have to run PluginInstall when you login
   # SHELL
 
-  # Use all the defaults:
+  # From http://docs.vagrantup.com/v2/provisioning/salt.html
   config.vm.provision :salt do |salt|
 
-    # Default location for minion config: http://docs.vagrantup.com/v2/provisioning/salt.html
     salt.minion_config = "salt/minion"
 
     # Run the states on up
