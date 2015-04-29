@@ -82,7 +82,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision :salt do |salt|
 
     # Default location for minion config: http://docs.vagrantup.com/v2/provisioning/salt.html
-    # salt.minion_config = "salt/minion"
+    salt.minion_config = "salt/minion"
 
     # Run the states on up
     salt.run_highstate = true
