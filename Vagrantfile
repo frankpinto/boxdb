@@ -51,19 +51,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
   # config.vm.provision "shell", privileged: false, inline: <<-SHELL
-  #   # Make my life easier on the terminal
-  #   cd
-  #   echo "alias l='ls -liah'" > .bash_aliases
-  #   echo "set -o vi" >> .bashrc
-
-  #   sudo su
-  #   export DEBIAN_FRONTEND=noninteractive
-
-  #   # Install generally useful tools
-  #   apt-get update
-  #   apt-get upgrade -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" -y
-  #   apt-get install -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" -y vim git make sysstat htop
-
   #   # IMPORTANT: Set time
   #   ntpdate -s ntp.ubuntu.com pool.ntp.org time.nist.gov
   #   apt-get install -y ntp
