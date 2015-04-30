@@ -3,11 +3,13 @@
     - text:
       - "set -o vi"
 
-temp_cleanup:
-  file.line:
+Remove alias from .bashrc:
+  file.replace:
     - name: /home/vagrant/.bashrc
-    - path: /home/vagrant/.bashrc
-    - content: "alias l='ls -liah'"
+    - pattern: alias l='ls -liah'\n
+    - repl:
+    - flags: ['MULTILINE']
+    - bufsize: file
     - mode: delete
 
 /home/vagrant/.bash_aliases:
