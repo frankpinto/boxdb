@@ -15,7 +15,7 @@ https://github.com/gmarik/Vundle.vim.git:
 /etc/vim/vimrc.local:
   file.managed:
     - source:
-      - salt://.vimrc
+      - salt://vim/.vimrc
       - https://raw.githubusercontent.com/frankpinto/dotfiles/master/.vimrc
 
 vim -c 'PluginInstall' -c 'qa!':
