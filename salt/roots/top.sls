@@ -1,5 +1,5 @@
 base:
   '*':
     - bash
-    - vim
     - packages
+    - vim
