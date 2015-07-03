@@ -20,5 +20,5 @@ https://github.com/gmarik/Vundle.vim.git:
 
 vim -c 'PluginInstall' -c 'qa!':
   cmd.run:
-    - unless: ls ~/.vim/bundle/js-beautify/package.json
+    - creates: ls ~/.vim/bundle/js-beautify/package.json
     - output_loglevel: quiet
